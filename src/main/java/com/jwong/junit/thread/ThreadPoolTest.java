@@ -22,18 +22,15 @@ public class ThreadPoolTest {
 
         for (int i = 1; i <= 10; i++) {
             final int task = i;
-            threadPool.execute(new Runnable() {
-                @Override
-                public void run() {
-                    for (int i = 1; i <= 10; i++) {
-                        try {
-                            Thread.sleep(20);
-                        } catch (InterruptedException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        System.out.println(Thread.currentThread().getName() + " is loop of " + i + " for task of " + task);
+            threadPool.execute(() -> {
+                for (int i1 = 1; i1 <= 10; i1++) {
+                    try {
+                        Thread.sleep(20);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
                     }
+                    System.out.println(Thread.currentThread().getName() + " is loop of " + i1 + " for task of " + task);
                 }
             });
         }

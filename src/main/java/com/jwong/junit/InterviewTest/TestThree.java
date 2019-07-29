@@ -4,10 +4,10 @@ package com.jwong.junit.InterviewTest;
  * Created by jwong on 2017/10/24.
  */
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 现有程序同时启动了4个线程去调用TestDo.doSome(key, value)方法，由于TestDo.doSome(key, value)方法内的代码是先暂停1秒，然后再输出以秒为单位的当前时间值，
@@ -42,16 +42,23 @@ public class TestThree extends Thread {
 
 
     public static void main(String[] args) throws InterruptedException {
-        TestThree a = new TestThree("1", "", "11");
-        TestThree b = new TestThree("1", "", "22");
-        TestThree c = new TestThree("3", "", "33");
-        TestThree d = new TestThree("4", "", "44");
-        System.out.println("begin:" + (System.currentTimeMillis() / 1000));
-        a.start();
-        b.start();
-        c.start();
-        d.start();
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(3);
+        for (int i = 0; i < 10; i++) {
+            final int index = i;
+            fixedThreadPool.execute(new Runnable() {
 
+                @Override
+                public void run() {
+                    try {
+                        System.out.println(index);
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+// TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
     }
 
     public void run() {
