@@ -62,11 +62,11 @@ public class Test20190516 {
             result.add(each);
         }
         Map<String, String> map = new HashMap<>();
-        convert(result, TestDTO::getUser, (testDTO, str) -> testDTO.setUser(str));
+        convert(result, TestDTO::getUser, TestDTO::setUser);
 
     }
 
-    public static <T, U, R> void convert(List<T> list, Function<T, String> function, BiConsumer<T, String> consumer) {
+    public static <T> void convert(List<T> list, Function<T, String> function, BiConsumer<T, String> consumer) {
         List<String> collect = list.stream().map(function).collect(Collectors.toList());
         Map<String, String> map = new HashMap<String, String>() {{
             put("user 1", "U1");
